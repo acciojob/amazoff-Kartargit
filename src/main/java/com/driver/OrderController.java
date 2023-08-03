@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class OrderController {
 
 @Autowired
-ServiceLayer serviceLayerObj = new ServiceLayer();
+OrderService serviceLayerObj = new OrderService();
     @PostMapping("/add-order")
     public ResponseEntity<String> addOrder(@RequestBody Order order){
         serviceLayerObj.addOrder(order);
@@ -80,7 +80,7 @@ ServiceLayer serviceLayerObj = new ServiceLayer();
 
     @GetMapping("/get-all-orders")
     public ResponseEntity<List<String>> getAllOrders(){
-        List<String> orders = null;
+        List<String> orders = serviceLayerObj.getAllOrders();
 
         //Get all orders
         return new ResponseEntity<>(orders, HttpStatus.CREATED);
@@ -88,17 +88,15 @@ ServiceLayer serviceLayerObj = new ServiceLayer();
 
     @GetMapping("/get-count-of-unassigned-orders")
     public ResponseEntity<Integer> getCountOfUnassignedOrders(){
-        Integer countOfOrders = 0;
-
+        Integer countOfOrders = serviceLayerObj.getCount_of_unassignedOrder();
         //Count of orders that have not been assigned to any DeliveryPartner
-
         return new ResponseEntity<>(countOfOrders, HttpStatus.CREATED);
     }
 
     @GetMapping("/get-count-of-orders-left-after-given-time/{partnerId}")
     public ResponseEntity<Integer> getOrdersLeftAfterGivenTimeByPartnerId(@PathVariable String time, @PathVariable String partnerId){
 
-        Integer countOfOrders = 0;
+        Integer countOfOrders = serviceLayerObj.getOrdersLeftAfterGivenTimeByPartnerId(partnerId,time);
 
         //countOfOrders that are left after a particular time of a DeliveryPartner
 
@@ -107,7 +105,7 @@ ServiceLayer serviceLayerObj = new ServiceLayer();
 
     @GetMapping("/get-last-delivery-time/{partnerId}")
     public ResponseEntity<String> getLastDeliveryTimeByPartnerId(@PathVariable String partnerId){
-        String time = null;
+        String time = serviceLayerObj.getLastOrder(partnerId);
 
         //Return the time when that partnerId will deliver his last delivery order.
 
@@ -119,6 +117,7 @@ ServiceLayer serviceLayerObj = new ServiceLayer();
 
         //Delete the partnerId
         //And push all his assigned orders to unassigned orders.
+        serviceLayerObj.deletePartner(partnerId);
 
         return new ResponseEntity<>(partnerId + " removed successfully", HttpStatus.CREATED);
     }

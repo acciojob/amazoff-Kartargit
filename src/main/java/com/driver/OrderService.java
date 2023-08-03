@@ -4,9 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
-public class ServiceLayer {
+public class OrderService {
     @Autowired
-    RepositoryLayer repositoryObj = new RepositoryLayer();
+    OrderRepository repositoryObj = new OrderRepository();
 
     public void addOrder(Order order){
 
@@ -29,5 +29,20 @@ public class ServiceLayer {
     }
     public List<String> getPartnerOrderList(String partnerId){
         return repositoryObj.getPartnerOrderList(partnerId);
+    }
+    public List<String> getAllOrders(){
+        return repositoryObj.getAllOrders();
+    }
+    public Integer getCount_of_unassignedOrder(){
+        return repositoryObj.getCount_of_unassignedOrder();
+    }
+    public Integer getOrdersLeftAfterGivenTimeByPartnerId(String partnerId,String time){
+        return repositoryObj.getOrdersLeftAfterGivenTimeByPartnerId(partnerId,time);
+    }
+    public String getLastOrder(String partnerId){
+        return repositoryObj.getLastOrder(partnerId);
+    }
+    public void deletePartner(String partnerId){
+        repositoryObj.deletePartner(partnerId);
     }
 }
