@@ -21,12 +21,16 @@ public class OrderRepository {
         List<String> list ;
         if(partnerOrderDb.containsKey(partnerId)){
             list = partnerOrderDb.get(partnerId);
+
         }
         else {
             list = new ArrayList<>();
         }
 
         list.add(orderId);
+        DeliveryPartner partner = partnerDb.get(partnerId);
+         int no = partner.getNumberOfOrders() + 1;
+         partner.setNumberOfOrders(no);
         assignedOrderDb.put(orderId,partnerId);
         partnerOrderDb.put(partnerId,list);
 
@@ -38,7 +42,8 @@ public class OrderRepository {
         return partnerDb.get(partnerId);
     }
     public Integer getPartnerOrders(String partnerId){
-        return partnerOrderDb.get(partnerId).size();
+        DeliveryPartner partner = partnerDb.get(partnerId);
+        return partner.getNumberOfOrders();
     }
     public List<String> getPartnerOrderList(String partnerId){
         return partnerOrderDb.get(partnerId);
@@ -93,6 +98,5 @@ public class OrderRepository {
         List<String> list = partnerOrderDb.get(partnerId);
         list.remove(orderId);
         partnerOrderDb.put(partnerId,list);
-
     }
 }

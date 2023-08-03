@@ -45,4 +45,7 @@ public class OrderService {
     public void deletePartner(String partnerId){
         repositoryObj.deletePartner(partnerId);
     }
+    public void deleteOrder(String orderId){
+        repositoryObj.deleteOrder(orderId);
+    }
 }

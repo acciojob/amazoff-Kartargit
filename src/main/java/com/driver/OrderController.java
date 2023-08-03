@@ -127,7 +127,7 @@ OrderService serviceLayerObj = new OrderService();
 
         //Delete an order and also
         // remove it from the assigned order of that partnerId
-
+        serviceLayerObj.deleteOrder(orderId);
         return new ResponseEntity<>(orderId + " removed successfully", HttpStatus.CREATED);
     }
 }
